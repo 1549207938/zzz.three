@@ -6,9 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <style>
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+  <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .logo {
   display: flex;
   align-items: center;
+  padding: 10px;
 }
 
 .logo img {
@@ -16,12 +34,11 @@
   margin-right: 20px;
 }  
 	  
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
 header {
   background-color: #333;
   color: #fff;
@@ -42,6 +59,8 @@ nav li {
 nav a {
   color: #fff;
   text-decoration: none;
+  display: block;
+  padding: 10px;
 }
 
 main {
@@ -52,13 +71,22 @@ main {
 }
 
 section {
-  width: 48%;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 768px) {
+  section {
+    width: 48%;
+    margin-bottom: 0;
+  }
 }
 
 h2 {
   color: #333;
   font-size: 24px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 article {
@@ -85,12 +113,18 @@ footer {
   padding: 10px;
   text-align: center;
 }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
   </style>
+</head>
 <body>
   <header>
     <div class="logo">
-  <img src="https://i.postimg.cc/WzDBtN93/2.png" alt="sola AI logo">
-</div>
+      <img src="https://i.postimg.cc/WzDBtN93/2.png" alt="sola AI logo">
+    </div>
     <nav>
       <ul>
         <li><a href="#">首页</a></li>
@@ -120,4 +154,4 @@ footer {
     <p>&copy; 2023 sola AI. All rights reserved.</p>
   </footer>
 </body>
-
+</html>
