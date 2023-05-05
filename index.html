@@ -22,7 +22,15 @@
   height: 80px;
   margin-right: 20px;
 }  
-	  
+
+.about {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -57,6 +65,38 @@ main {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 20px;
+}
+.about-us {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.about-content h3 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.about-content p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.about-content img {
+  max-width: 100%;
+  border-radius: 5px;
 }
 
 section {
@@ -124,9 +164,15 @@ html, body {
   </header>
   <main>
     <section>
-      <h2>关于我们</h2>
-      <p>欢迎来到solaAI！我们是一家专注于利用GPT生成各种应用的创新型公司。通过GPT强大的语言生成能力，我们可以为您提供全方位的应用解决方案。我们的应用场景涉及各个领域，无论是商业、科技、教育还是文化艺术，我们都能为您提供个性化的服务。我们的团队由一群热爱技术的年轻人组成，他们精通各种编程语言和技术，可以为您提供高质量的产品和服务。我们的核心竞争力是我们对GPT技术的深入研究和应用，我们始终站在技术的前沿，不断创新，不断突破。我们拥有一套完整的研发流程，从需求分析到产品上线，每个步骤都精益求精，保证了我们产品的质量和稳定性。我们的愿景是成为领先的GPT应用开发商，为世界各地的用户提供最好的应用解决方案。我们不断创新，不断追求卓越，我们相信通过我们的努力和创新，我们可以为您带来更多的价值和意义。如果您有任何需求或者想了解更多关于我们的信息，欢迎随时联系我们，我们将竭诚为您服务！</p>
-    </section>
+	  <div class="about-us">
+	    <h2>关于我们</h2>
+		<div class="about-content">
+		<h3>我们的使命</h3>
+        <p>欢迎来到solaAI！我们是一家专注于利用GPT生成各种应用的创新型公司。通过GPT强大的语言生成能力，我们可以为您提供全方位的应用解决方案。我们的应用场景涉及各个领域，无论是商业、科技、教育还是文化艺术，我们都能为您提供个性化的服务。如果您有任何需求或者想了解更多关于我们的信息，欢迎随时联系我们，我们将竭诚为您服务！</p>
+        <img src="https://i.postimg.cc/ZKJr1Gq5/logo-transparent.png" alt="关于我们图片">
+      </div>
+	</div>
+	</section>
     <section>
       <h2>产品</h2>
       <article>
