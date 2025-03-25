@@ -1,200 +1,261 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-  <title>sola AI</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-
-.logo img {
-  height: 80px;
-  margin-right: 20px;
-}  
-
-.about {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-}
-
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-}
-
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-nav li {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  display: block;
-  padding: 10px;
-}
-
-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 20px;
-}
-.about-us {
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.about-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.about-content h3 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.about-content p {
-  color: #666;
-  font-size: 16px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.about-content img {
-  max-width: 100%;
-  border-radius: 5px;
-}
-
-section {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-@media only screen and (min-width: 768px) {
-  section {
-    width: 48%;
-    margin-bottom: 0;
-  }
-}
-
-h2 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-article {
-  background-color: #eee;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-article h3 {
-  color: #333;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-article p {
-  color: #666;
-  font-size: 16px;
-}
-
-footer {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-}
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字填充游戏</title>
+    <style>
+        body {
+            background-color: #66cc99;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .timer {
+            background-color: #006633;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(6, 50px);
+            grid-gap: 5px;
+            margin-top: 20px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #000;
+        }
+        .fixed {
+            background-color: #aaffaa;
+            color: black;
+        }
+        .editable {
+            background-color: white;
+            color: black;
+        }
+        .sum-cell, .score {
+            background-color: green;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .score {
+            background-color: black;
+        }
+        button {
+            width: 60%;
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .submit-btn {
+            background-color: black;
+            color: white;
+        }
+        .hint-btn, .reset-btn {
+            background-color: lightblue;
+            color: black;
+        }
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        /* 新增样式，用于显示目标值 */
+        .target-sum {
+            background-color: #006633;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <img src="https://i.postimg.cc/WzDBtN93/2.png" alt="sola AI logo">
+    <!-- 新增元素用于显示目标值 -->
+    <div class="target-sum">目标值：<span id="target-sum"></span></div>
+    <div class="timer">时间：<span id="time">60</span>秒</div>
+    <div class="container">
+        <div class="score">得分：<span id="score">0</span></div>
+        <div class="grid" id="grid"></div>
+        <button class="submit-btn" onclick="checkGrid()">提交</button>
+        <button class="hint-btn" onclick="provideHint()" disabled>提示</button>
+        <button class="reset-btn" onclick="resetGame()">重新开始</button>
     </div>
-    <nav>
-      <ul>
-        <li><a href="#">首页</a></li>
-        <li><a href="#">关于</a></li>
-        <li><a href="#">联系我们</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-	  <div class="about-us">
-	    <h2>关于我们</h2>
-		<div class="about-content">
-		<h3>我们的使命</h3>
-        <p>欢迎来到solaAI！我们是一家专注于利用GPT生成各种应用的创新型公司。通过GPT强大的语言生成能力，我们可以为您提供全方位的应用解决方案。我们的应用场景涉及各个领域，无论是商业、科技、教育还是文化艺术，我们都能为您提供个性化的服务。如果您有任何需求或者想了解更多关于我们的信息，欢迎随时联系我们，我们将竭诚为您服务！</p>
-        <img src="https://i.postimg.cc/ZKJr1Gq5/logo-transparent.png" alt="关于我们图片">
-      </div>
-	</div>
-	</section>
-    <section>
-      <h2>产品</h2>
-      <article>
-        <h3><a href="https://solaai.lemonsqueezy.com/checkout/buy/3e181186-5cbc-4830-834e-e4e35501abbc?embed=1" class="lemonsqueezy-button">星座占卜</a></h3>
-        <p>通过输入用户的出生日期和星座来生成个性化的星座运势预测和建议。</p>
-      </article>
-      <article>
-        <h3><a href="https://solaai.lemonsqueezy.com/checkout/buy/20252e66-e6eb-4bf1-8c48-f34794db385b?embed=1">周易算卦</a></h3>
-        <p>结合了古老的周易文化和现代的人工智能技术，旨在为用户提供一种简便、准确、有趣的占卜体验。</p>
-      </article>
-	  <article>
-		<h3><a href="https://solaai.lemonsqueezy.com/checkout/buy/bd41d060-7839-46e6-a197-757efd74ba1f?embed=1" class="lemonsqueezy-button">论文写作</a></h3>
-		<p>通过提供专业的论文写作服务，帮助学生们轻松高效地完成学术作业。</p>
-	  </article>
-	  <article>
-		<h3><a href="https://solaai.lemonsqueezy.com/checkout/buy/7285e28e-0689-42f4-8c88-f363c2b5f127?embed=1" class="lemonsqueezy-button">吐槽神器</a></h3>
-		<p>畅所欲言，倾诉心声，减轻压力</p>
-	  </article>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2023 sola AI. All rights reserved.</p>
-  </footer>
+    
+    <script>
+      const gridSize = 6;
+      let matrix = [];
+      let targetSum = 0;
+      let score = 0;
+      let selectedCell = null;
+  
+      function generateGrid() {
+          const grid = document.getElementById("grid");
+          grid.innerHTML = "";
+          matrix = [];
+  
+          for (let i = 0; i < gridSize; i++) {
+              let row = [];
+              for (let j = 0; j < gridSize; j++) {
+                  let cell = document.createElement("input");
+                  cell.type = "text";
+                  cell.classList.add("cell");
+  
+                  let randomNum = Math.floor(Math.random() * 9) + 1;
+                  let isFixed = Math.random() < 0.7;
+  
+                  if (isFixed || i === 0) {
+                      cell.value = randomNum;
+                      cell.classList.add("fixed");
+                      cell.readOnly = true;
+                  } else {
+                      cell.value = "";
+                      cell.classList.add("editable");
+                  }
+  
+                  cell.addEventListener('input', function () {
+                      handleInputChange(i, j);
+                  });
+  
+                  row.push({ value: isFixed ? randomNum : null, element: cell });
+                  grid.appendChild(cell);
+              }
+              matrix.push(row);
+          }
+          targetSum = matrix[0].reduce((sum, cell) => sum + cell.value, 0);
+          // 更新目标值显示
+          document.getElementById('target-sum').textContent = targetSum;
+          score = 0;
+          document.getElementById('score').textContent = score;
+          selectedCell = null;
+          document.querySelector('.hint-btn').disabled = true;
+      }
+  
+      function handleInputChange(row, col) {
+          let cell = matrix[row][col];
+          let value = parseInt(cell.element.value, 10);
+          if (isNaN(value)) {
+              cell.element.value = "";
+              return;
+          }
+          cell.value = value;
+  
+          // 计算当前行的总和
+          let rowSum = 0;
+          for (let j = 0; j < gridSize; j++) {
+              rowSum += matrix[row][j].value || 0;
+          }
+  
+          // 判断当前行是否正确
+          let isRowCorrect = rowSum === targetSum;
+          if (isRowCorrect) {
+              score += 10;
+              for (let j = 0; j < gridSize; j++) {
+                  matrix[row][j].element.classList.remove('incorrect');
+                  matrix[row][j].element.classList.add('correct');
+              }
+          } else {
+              score = Math.max(0, score - 10);
+              for (let j = 0; j < gridSize; j++) {
+                  matrix[row][j].element.classList.remove('correct');
+                  matrix[row][j].element.classList.add('incorrect');
+              }
+          }
+  
+          document.getElementById('score').textContent = score;
+  
+          // 检查是否通关
+          if (score >= 100) {
+              alert("恭喜！你通关了！");
+          }
+      }
+  
+      function selectCell(row, col) {
+          if (matrix[row][col].value === null) {
+              selectedCell = { row, col };
+              document.querySelector('.hint-btn').disabled = false;
+          }
+      }
+  
+      function checkGrid() {
+          let correctCount = 0;
+          for (let i = 0; i < gridSize; i++) {
+              let rowSum = 0;
+              for (let j = 0; j < gridSize; j++) {
+                  let cell = matrix[i][j];
+                  let value = parseInt(cell.element.value, 10);
+                  if (isNaN(value)) {
+                      cell.element.classList.add('incorrect');
+                  } else {
+                      rowSum += value;
+                  }
+              }
+              for (let j = 0; j < gridSize; j++) {
+                  let cell = matrix[i][j];
+                  let value = parseInt(cell.element.value, 10);
+                  if (isNaN(value)) {
+                      continue;
+                  }
+                  if (rowSum === targetSum) {
+                      cell.element.classList.add('correct');
+                      correctCount++;
+                  } else {
+                      cell.element.classList.add('incorrect');
+                  }
+              }
+          }
+          score = correctCount * 10;
+          document.getElementById('score').textContent = score;
+          if (score >= 100) {
+              alert("恭喜！你通关了！");
+          }
+      }
+  
+      function provideHint() {
+          if (selectedCell) {
+              const { row, col } = selectedCell;
+              let rowSum = 0;
+              for (let j = 0; j < gridSize; j++) {
+                  if (j!== col) {
+                      rowSum += matrix[row][j].value || parseInt(matrix[row][j].element.value, 10);
+                  }
+              }
+              const correctValue = targetSum - rowSum;
+              matrix[row][col].element.value = correctValue;
+              matrix[row][col].value = correctValue;
+              selectedCell = null;
+              document.querySelector('.hint-btn').disabled = true;
+              handleInputChange(row, col);
+          }
+      }
+  
+      function resetGame() {
+          generateGrid();
+      }
+  
+      generateGrid();
+  </script>
 </body>
 </html>
